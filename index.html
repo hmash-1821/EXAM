@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>LT Exam Results Lookup</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background-image: url(phoytos/ltac.jpg);
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+    }
+
+    .container, .result-screen {
+      max-width: 450px;
+      margin: 100px auto;
+      padding: 20px;
+      background: rgba(255,255,255,0.9);
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      border-radius: 10px;
+      text-align: center;
+    }
+
+    input, button {
+      padding: 6px;
+      width: 100%;
+      margin-top: 15px;
+      font-size: 16px;
+    }
+
+    .result-screen {
+      display: none;
+    }
+
+    .back-btn {
+      margin-top: 20px;
+      background-color: #444;
+      color: white;
+      cursor: pointer;
+    }
+
+    .score-box {
+      margin: 10px 0;
+      padding: 12px;
+      background-color: #f0f0f0;
+      border-left: 5px solid #4CAF50;
+      text-align: left;
+    }
+
+    .score-label {
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- input-->
+  <div class="container" id="searchScreen">
+    <h2>Check Exam Result</h2>
+    <input type="text" id="nameInput" placeholder="Enter your name...">
+    <button onclick="checkResult()">Search</button>
+  </div>
+
+  <!-- resuult -->
+  <div class="result-screen" id="resultScreen">
+    <h2 id="studentName">Result</h2>
+    <div id="resultOutput"></div>
+    <button class="back-btn" onclick="goBack()">Back</button>
+  </div>
+
+  <script>
+    //  bashvebis baza 
+    const results = {
+      "Natali Noselidze": {
+        reading: 71,
+        speaking: 8,
+        writing: 19
+      },
+      "Tekla Siradze": {
+        reading: 48,
+        speaking: 7,
+        writing: 16
+      },
+      "Amiko Nucubidze": {
+        reading: 66,
+        speaking: 7,
+        writing: 15
+      },
+      "Sandro Meparishvili": {
+        reading: 50,
+        speaking: 6,
+        writing: 15
+      },
+       "Nino Ochigava": {
+        reading: 73,
+        speaking: 8,
+        writing: 19
+      },
+       "Luka Dateshidze": {
+        reading: 66,
+        speaking: 8,
+        writing: 17
+      },
+       "Mariatereza Ragimova": {
+        reading: 71,
+        speaking: 8,
+        writing: 24
+      },
+       "Anastasia Siradze": {
+        reading: 43,
+        speaking: 8,
+        writing: 15
+      },
+       "Barbare Levidze": {
+        reading: 66,
+        speaking: 8,
+        writing: 18
+      },
+       "Sesili Noselidze": {
+        reading: 53,
+        speaking: 7,
+        writing: 17
+      },
+       "Iakobi Svanadze": {
+        reading: 55,
+        speaking: 7,
+        writing: 18
+      },
+       "Toma Chirgadze": {
+        reading: 50,
+        speaking: 7,
+        writing: 17
+      },
+       "Marta Noselidze": {
+        reading: 60,
+        speaking: 8,
+        writing: 20
+      },
+       "Mariam Bogveradze": {
+        reading: 59,
+        speaking: 7,
+        writing: 17
+      },
+       "Mariam Sanaia": {
+        reading: 58,
+        speaking: 10,
+        writing: 19
+      },
+       "Qeta Nanobashvili": {
+        reading: 61,
+        speaking: 9,
+        writing: 20
+      },
+       "Amiran Liluashvili": {
+        reading: 63,
+        speaking: 7,
+        writing: 16
+      },
+       "Anastasia Ragimova": {
+        reading: 65,
+        speaking: 9,
+        writing: 25
+      },
+       "Luka Tutberidze": {
+        reading: 51,
+        speaking: 8,
+        writing: 21
+      },
+       "Mariam Mushkudiani": {
+        reading: 55,
+        speaking: 8,
+        writing: 15
+      },
+       "Barbare Ragimova": {
+        reading: 85,
+        speaking: 6,
+        writing: 0
+      },
+        "Anano Sakhelashvili": {
+        reading: 96,
+        speaking: 10,
+        writing: 0
+      },
+        "Sara M.Abdulatiff Mohamad": {
+        reading: 96,
+        speaking: 9,
+        writing: 0
+      },
+        "Gabriel Saghinadze": {
+        reading: 85,
+        speaking: 8,
+        writing: 0
+      },
+        "Andria Saghinadze": {
+        reading: 95,
+        speaking: 9,
+        writing: 0
+      },
+        "Daniel Khurtsilava": {
+        reading: 85,
+        speaking: 7,
+        writing: 0
+      },
+        "Mate Kapanadze": {
+        reading: 69,
+        speaking: 7,
+        writing: 19
+      },
+        "Davit Toradze": {
+        reading: 59,
+        speaking: 6,
+        writing: 0
+      },
+        "Ani Sakhelashvili": {
+        reading: 58,
+        speaking: 6,
+        writing: 0
+      },
+        "Nia Sakhelashvili": {
+        reading: 54,
+        speaking: 6,
+        writing: 0
+      },
+        "Lizi Toradze": {
+        reading: 50,
+        speaking: 5,
+        writing: 0
+      },
+       "Tengo Choladze": {
+        reading: 65,
+        speaking: 5,
+        writing: 0
+      },
+        "Mariam Shelia": {
+        reading: 85,
+        speaking: 9,
+        writing: 0
+      },
+        "Saba Shelia": {
+        reading: 58,
+        speaking: 6,
+        writing: 0
+      },
+        "Giorgi Kharebashvili": {
+        reading: 58,
+        speaking: 6,
+        writing: 0
+      },
+    };
+
+    function checkResult() {
+  const name = document.getElementById("nameInput").value.trim();
+  const output = document.getElementById("resultOutput");
+  const title = document.getElementById("studentName");
+
+  if (results[name]) {
+    const score = results[name];
+    const total = score.reading + score.speaking + score.writing;
+
+    title.textContent = `${name}'s Result`;
+
+    // kvela qula
+    output.innerHTML = `
+      <div class="score-box"><span class="score-label">Reading/Use of English:</span> ${score.reading} points</div>
+      <div class="score-box"><span class="score-label">Speaking:</span> ${score.speaking} points</div>
+      <div class="score-box"><span class="score-label">Writing:</span> ${score.writing} points</div>
+      <div class="score-box" style="border-left-color: #2196F3;"><span class="score-label">Total Score:</span> ${total} points out of 110</div>
+    `;
+  } else {
+    title.textContent = "No result found";
+    output.innerHTML = `<div style="color: red;">No result found for "${name}"</div>`;
+  }
+
+  document.getElementById("searchScreen").style.display = "none";
+  document.getElementById("resultScreen").style.display = "block";
+}
+function goBack() {
+  document.getElementById("resultScreen").style.display = "none";
+  document.getElementById("searchScreen").style.display = "block";
+  document.getElementById("nameInput").value = "";
+  document.getElementById("resultOutput").innerHTML = "";
+  document.getElementById("studentName").textContent = "Result";
+}
+  </script>
+</body>
+</html>
